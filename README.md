@@ -1,6 +1,6 @@
 # Subtitle Gap Remover
 
-A Python script that processes SRT subtitle files to remove gaps between subtitle entries, ensuring seamless viewing experience.
+A Python script that processes SRT subtitle files to remove gaps between subtitle entries, ensuring seamless viewing experience. I find it very annoying when subtitle text has gaps in between snippets. Sometimes, text disappears unnecessarily quickly and I can't read all of it. During the gaps, there is no text anymore, but I could be reading the text at a more comfortable pace if it stayed on the screen with no gaps to begin with. This script quickly removes the gaps and solves that issue.
 
 ## Prerequisites
 
