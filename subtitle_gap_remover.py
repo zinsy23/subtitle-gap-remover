@@ -87,13 +87,11 @@ def process_srt_file(file_path, gap_mode="after"):
             if gap_mode == "after":
                 # Make the end time of current subtitle match the start time of next subtitle
                 if current['end'] != next_subtitle['start']:
-                    print(f"Subtitle {current['index']}: Changing end time from {format_time(current['end'])} to {format_time(next_subtitle['start'])}", flush=True)
                     current['end'] = next_subtitle['start']
                     changes_made += 1
             else:  # gap_mode == "before"
                 # Make the start time of next subtitle match the end time of current subtitle
                 if next_subtitle['start'] != current['end']:
-                    print(f"Subtitle {next_subtitle['index']}: Changing start time from {format_time(next_subtitle['start'])} to {format_time(current['end'])}", flush=True)
                     next_subtitle['start'] = current['end']
                     changes_made += 1
     
@@ -111,7 +109,6 @@ def process_srt_file(file_path, gap_mode="after"):
             output_content += "\n"
     
     # Write the modified content back to the file
-    print(f"Writing {len(output_content)} characters back to {file_path}", flush=True)
     with open(file_path, 'w', encoding='utf-8') as file:
         file.write(output_content)
     
