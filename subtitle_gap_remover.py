@@ -29,27 +29,19 @@ def process_srt_file(file_path, gap_mode="after"):
     try:
         with open(file_path, 'r', encoding='utf-8') as file:
             content = file.read()
-            print(f"File read successfully, content length: {len(content)} characters", flush=True)
     except UnicodeDecodeError:
         print(f"UTF-8 decoding failed, trying with latin-1", flush=True)
         # Try with a different encoding if utf-8 fails
         with open(file_path, 'r', encoding='latin-1') as file:
             content = file.read()
-            print(f"File read with latin-1, content length: {len(content)} characters", flush=True)
     
     # Parse the SRT file into subtitle blocks
     subtitles = []
     
     # Split the content by empty lines to get subtitle blocks
     blocks = re.split(r'\r?\n\r?\n', content.strip())
-    print(f"Split content into {len(blocks)} blocks", flush=True)
     
     for i, block in enumerate(blocks):
-        if i < 3 or i > len(blocks) - 3:
-            print(f"Block {i}: {block[:100]}{'...' if len(block) > 100 else ''}", flush=True)
-        elif i == 3:
-            print("...", flush=True)
-            
         lines = block.split('\n')
         if len(lines) >= 3:  # Ensure we have index, timing, and text
             index = lines[0]
@@ -74,8 +66,6 @@ def process_srt_file(file_path, gap_mode="after"):
                 print(f"Warning: Failed to parse timing in block {i}: {timing}", flush=True)
         else:
             print(f"Warning: Block {i} has fewer than 3 lines: {lines}", flush=True)
-    
-    print(f"Found {len(subtitles)} valid subtitle blocks", flush=True)
     
     # Apply gap removal
     changes_made = 0
@@ -116,9 +106,6 @@ def process_srt_file(file_path, gap_mode="after"):
 
 def main():
     """Main function to handle command line arguments and process files."""
-    print(f"Starting subtitle gap remover script", flush=True)
-    print(f"Arguments: {sys.argv}", flush=True)
-    
     if len(sys.argv) < 2:
         print("Usage: python subtitle_gap_remover.py <file_path(s)> [before|after]", flush=True)
         print("  file_path(s): Path(s) to SRT file(s), wildcards accepted", flush=True)
@@ -135,19 +122,13 @@ def main():
     else:
         file_args = sys.argv[1:]
     
-    print(f"Gap mode: {gap_mode}", flush=True)
-    print(f"File arguments: {file_args}", flush=True)
-    
     # Process all file arguments, expanding wildcards
     for arg in file_args:
         expanded_files = glob.glob(arg)
         if expanded_files:
             files_to_process.extend(expanded_files)
-            print(f"Expanded '{arg}' to {len(expanded_files)} file(s)", flush=True)
         else:
             print(f"Warning: No files found matching '{arg}'", flush=True)
-    
-    print(f"Files to process: {files_to_process}", flush=True)
     
     if not files_to_process:
         print("No files to process.", flush=True)
